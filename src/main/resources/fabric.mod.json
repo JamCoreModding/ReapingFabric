@@ -1,26 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "templatemod",
+  "id": "reapingmod",
   "version": "${version}",
-  "name": "TemplateMod",
-  "description": "A Template Mod",
+  "name": "Reaping Mod",
+  "description": "A Farming Mod",
   "authors": [
     "Jamalam360"
   ],
   "contributors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/templatemod/icon.png",
+  "icon": "assets/reapingmod/icon.png",
   "environment": "*",
+  "accessWidener" : "reapingmod.accesswidener",
   "entrypoints": {
     "main": [
-      "com.jamalam360.TemplateModInit"
+      "com.jamalam360.ReapingModInit"
     ],
     "client": [],
     "server": []
   },
   "mixins": [
-    "templatemod.mixins.json"
+    "reapingmod.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.11.3",

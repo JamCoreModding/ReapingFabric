@@ -1,1 +1,3 @@
-"# FabricTemplateMod" 
+Reaping Mod for Fabric
+
+Allows you to harvest animals...
