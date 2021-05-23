@@ -26,6 +26,7 @@ public class ReaperItem extends Item {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if(entity instanceof AnimalEntity && !entity.isBaby()) {
             doToolLogic(entity);
+            entity.setAttacker(user);
             return ActionResult.SUCCESS;
         } else{
             return ActionResult.PASS;
