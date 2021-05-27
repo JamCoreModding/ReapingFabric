@@ -18,7 +18,7 @@ public class ReapingModInit implements ModInitializer {
     public static final String MOD_ID = "reapingmod";
     public static final String MOD_NAME = "Reaping Mod";
 
-    private static final Item REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS));
+    private static final Item REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
 
     @Override
     public void onInitialize() {
