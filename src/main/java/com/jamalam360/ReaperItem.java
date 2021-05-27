@@ -24,16 +24,17 @@ public class ReaperItem extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if(entity instanceof AnimalEntity && !entity.isBaby()) {
+        if (entity instanceof AnimalEntity && !entity.isBaby()) {
             doToolLogic(entity);
             entity.setAttacker(user);
+            stack.damage(1, user.world.getRandom(), null);
             return ActionResult.SUCCESS;
-        } else{
+        } else {
             return ActionResult.PASS;
         }
     }
 
-    public static void doToolLogic(LivingEntity entity){
+    public static void doToolLogic(LivingEntity entity) {
         dropEntityStacks(entity);
         ((AnimalEntity) entity).setBaby(true);
 
@@ -41,12 +42,13 @@ public class ReaperItem extends Item {
         entity.damage(DamageSource.GENERIC, 1.0f);
     }
 
-    private static void dropEntityStacks(LivingEntity entity){
+    private static void dropEntityStacks(LivingEntity entity) {
         Identifier identifier = entity.getLootTable();
         try {
             LootTable lootTable = entity.world.getServer().getLootManager().getTable(identifier);
             LootContext.Builder builder = entity.getLootContextBuilder(true, DamageSource.GENERIC);
             lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
-        } catch (NullPointerException e){}
+        } catch (NullPointerException e) {
+        }
     }
 }
