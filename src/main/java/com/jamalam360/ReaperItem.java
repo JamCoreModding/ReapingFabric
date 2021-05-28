@@ -6,6 +6,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Vanishable;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextTypes;
@@ -17,7 +18,7 @@ import net.minecraft.util.Identifier;
 /**
  * @author Jamalam360
  */
-public class ReaperItem extends Item {
+public class ReaperItem extends Item implements Vanishable {
     public ReaperItem(Settings settings) {
         super(settings);
     }
@@ -50,5 +51,10 @@ public class ReaperItem extends Item {
             lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
         } catch (NullPointerException e) {
         }
+    }
+
+    @Override
+    public int getEnchantability() {
+        return 10;
     }
 }
