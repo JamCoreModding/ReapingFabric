@@ -29,7 +29,7 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         World world = pointer.getWorld();
         if (!world.isClient()) {
             BlockPos blockPos = pointer.getBlockPos().offset((Direction) pointer.getBlockState().get(DispenserBlock.FACING));
-            this.setSuccess(tryShearBlock((ServerWorld) world, blockPos) || tryShearEntity((ServerWorld) world, blockPos));
+            this.setSuccess(tryShearBlock((ServerWorld) world, blockPos) || tryShearEntity((ServerWorld) world, blockPos, stack));
             if (this.isSuccess() && stack.damage(1, world.getRandom(), (ServerPlayerEntity) null)) {
                 stack.setCount(0);
             }
@@ -42,14 +42,14 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         return false;
     }
 
-    private static boolean tryShearEntity(ServerWorld world, BlockPos pos) {
+    private static boolean tryShearEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
         List<LivingEntity> list = world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR);
         Iterator var3 = list.iterator();
 
         while (var3.hasNext()) {
             LivingEntity livingEntity = (LivingEntity) var3.next();
             if (livingEntity instanceof AnimalEntity && !livingEntity.isBaby()) {
-                ReaperItem.doToolLogic(livingEntity);
+                ReaperItem.doToolLogic(livingEntity, stack);
                 return true;
             }
         }
