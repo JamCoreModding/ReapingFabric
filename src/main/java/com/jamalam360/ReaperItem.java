@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.Vanishable;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
@@ -20,8 +21,11 @@ import net.minecraft.util.Hand;
  * @author Jamalam360
  */
 public class ReaperItem extends Item implements Vanishable {
-    public ReaperItem(Settings settings) {
-        super(settings);
+    private final ToolMaterial TOOL_MATERIAL;
+
+    public ReaperItem(Settings settings, ToolMaterial material) {
+        super(settings.maxDamage(material.getDurability()));
+        this.TOOL_MATERIAL = material;
     }
 
     @Override
@@ -56,8 +60,7 @@ public class ReaperItem extends Item implements Vanishable {
             for (int i = 0; i < rollTimes; i++) {
                 lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
             }
-        } catch (NullPointerException e) {
-        }
+        } catch (NullPointerException ignored) {}
     }
 
     @Override
