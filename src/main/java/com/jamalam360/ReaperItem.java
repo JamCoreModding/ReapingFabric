@@ -44,13 +44,10 @@ public class ReaperItem extends Item implements Vanishable {
     }
 
     private static void dropEntityStacks(LivingEntity entity) {
-        Identifier identifier = entity.getLootTable();
-        try {
-            LootTable lootTable = entity.world.getServer().getLootManager().getTable(identifier);
-            LootContext.Builder builder = entity.getLootContextBuilder(true, DamageSource.GENERIC);
-            lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
-        } catch (NullPointerException e) {
-        }
+        assert entity.world.getServer() != null;
+        LootTable lootTable = entity.world.getServer().getLootManager().getTable(entity.getLootTable());
+        LootContext.Builder builder = entity.getLootContextBuilder(true, DamageSource.GENERIC);
+        lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
     }
 
     @Override
