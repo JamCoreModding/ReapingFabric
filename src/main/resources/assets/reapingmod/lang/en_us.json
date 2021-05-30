@@ -2,5 +2,7 @@
   "item.reapingmod.iron_reaping_tool": "Iron Reaper",
   "item.reapingmod.gold_reaping_tool": "Gold Reaper",
   "item.reapingmod.diamond_reaping_tool": "Diamond Reaper",
-  "item.reapingmod.netherite_reaping_tool": "Netherite Reaper"
+  "item.reapingmod.netherite_reaping_tool": "Netherite Reaper",
+  "reapingmod.advancements.netherite_reaping_tool.title": "Why would you do that?",
+  "reapingmod.advancements.netherite_reaping_tool.description": "Seriously, sit down and ask yourself: 'Why did I do that?'"
 }

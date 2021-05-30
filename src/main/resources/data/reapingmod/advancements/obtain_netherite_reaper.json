@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:husbandry/plant_seed",
+  "display": {
+    "icon": {
+      "item": "reapingmod:netherite_reaping_tool",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "reapingmod.advancements.netherite_reaping_tool.title"
+    },
+    "description": {
+      "translate": "reapingmod.advancements.netherite_reaping_tool.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "netherite_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "#item": "reapingmod:netherite_reaping_tool"
+          }
+        ]
+      }
+    }
+  }
+}
