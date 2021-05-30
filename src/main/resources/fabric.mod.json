@@ -17,7 +17,9 @@
     "main": [
       "com.jamalam360.ReapingModInit"
     ],
-    "client": [],
+    "client": [
+      "com.jamalam360.ReapingModClientInit"
+    ],
     "server": []
   },
   "mixins": [

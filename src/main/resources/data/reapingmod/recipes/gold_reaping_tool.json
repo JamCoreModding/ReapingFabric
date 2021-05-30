@@ -10,11 +10,11 @@
       "item": "minecraft:stick"
     },
     "R": {
-      "item": "minecraft:diamond"
+      "item": "minecraft:gold_ingot"
     }
   },
   "result": {
-    "item": "reapingmod:reaping_tool",
+    "item": "reapingmod:gold_reaping_tool",
     "count": 1
   }
 }

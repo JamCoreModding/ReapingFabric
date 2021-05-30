@@ -20,7 +20,6 @@ import net.minecraft.util.Hand;
  * @author Jamalam360
  */
 public class ReaperItem extends Item implements Vanishable {
-
     public ReaperItem(Settings settings) {
         super(settings);
     }
@@ -51,13 +50,14 @@ public class ReaperItem extends Item implements Vanishable {
             LootTable lootTable = entity.world.getServer().getLootManager().getTable(entity.getLootTable());
             LootContext.Builder builder = entity.getLootContextBuilder(true, DamageSource.GENERIC);
 
-            int lootingLvl = EnchantmentHelper.getLevel(Enchantments.LOOTING, stack);            System.out.println(EnchantmentHelper.getLevel(Enchantments.LOOTING, stack));
+            int lootingLvl = EnchantmentHelper.getLevel(Enchantments.LOOTING, stack);
             int rollTimes = lootingLvl == 0 ? 1 : RANDOM.nextInt(lootingLvl) + 1;
 
             for (int i = 0; i < rollTimes; i++) {
                 lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
             }
-        } catch (NullPointerException e){ }
+        } catch (NullPointerException e) {
+        }
     }
 
     @Override

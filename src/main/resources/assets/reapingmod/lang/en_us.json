@@ -1,3 +1,6 @@
 {
-  "item.reapingmod.reaping_tool": "Reaper"
+  "item.reapingmod.iron_reaping_tool": "Iron Reaper",
+  "item.reapingmod.gold_reaping_tool": "Gold Reaper",
+  "item.reapingmod.diamond_reaping_tool": "Diamond Reaper",
+  "item.reapingmod.netherite_reaping_tool": "Netherite Reaper"
 }

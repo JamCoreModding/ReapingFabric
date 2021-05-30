@@ -18,19 +18,31 @@ public class ReapingModInit implements ModInitializer {
     public static final String MOD_ID = "reapingmod";
     public static final String MOD_NAME = "Reaping Mod";
 
-    private static final Item REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(50));
+    public static final Item IRON_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(30));
+    public static final Item GOLD_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(20));
+    public static final Item DIAMOND_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(60));
+    public static final Item NETHERITE_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(150));
 
     @Override
     public void onInitialize() {
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "reaping_tool"), REAPING_TOOL_ITEM);
-
-        DispenserBlock.registerBehavior(REAPING_TOOL_ITEM, new ReapingToolDispenserBehavior());
+        registerReapingToolItem(IRON_REAPING_TOOL_ITEM, idOf("iron_reaping_tool"));
+        registerReapingToolItem(GOLD_REAPING_TOOL_ITEM, idOf("gold_reaping_tool"));
+        registerReapingToolItem(DIAMOND_REAPING_TOOL_ITEM, idOf("diamond_reaping_tool"));
+        registerReapingToolItem(NETHERITE_REAPING_TOOL_ITEM, idOf("netherite_reaping_tool"));
 
         log(Level.INFO, "Initializing");
+    }
+
+    private Identifier idOf(String name) {
+        return new Identifier(MOD_ID, name);
     }
 
     public static void log(Level level, String message){
         LOGGER.log(level, "["+MOD_NAME+"] " + message);
     }
 
+    private static void registerReapingToolItem(Item item, Identifier id){
+        Registry.register(Registry.ITEM, id, item);
+        DispenserBlock.registerBehavior(item, new ReapingToolDispenserBehavior());
+    }
 }
