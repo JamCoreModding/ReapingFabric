@@ -34,6 +34,9 @@ public class ReaperItem extends Item implements Vanishable {
             doToolLogic(entity, stack);
             entity.setAttacker(user);
             stack.damage(1, user.world.getRandom(), null);
+
+            user.incrementStat(ReapingModInit.USE_REAPER_TOOL);
+
             return ActionResult.SUCCESS;
         } else {
             return ActionResult.PASS;

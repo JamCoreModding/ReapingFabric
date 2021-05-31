@@ -17,10 +17,10 @@
     "hidden": false
   },
   "rewards": {
-    "experience": 100
+    "experience": 250
   },
   "criteria": {
-    "netherite_hoe": {
+    "netherite_reaper": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -30,5 +30,10 @@
         ]
       }
     }
-  }
+  },
+  "requirements": [
+    [
+      "netherite_reaper"
+    ]
+  ]
 }

@@ -6,6 +6,8 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ToolMaterials;
+import net.minecraft.stat.StatFormatter;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
@@ -24,17 +26,22 @@ public class ReapingModInit implements ModInitializer {
     public static final Item DIAMOND_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1), ToolMaterials.DIAMOND);
     public static final Item NETHERITE_REAPING_TOOL_ITEM = new ReaperItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).fireproof(), ToolMaterials.NETHERITE);
 
+    public static final Identifier USE_REAPER_TOOL = idOf("use_reaper_tool");
+
     @Override
     public void onInitialize() {
-        registerReapingToolItem(IRON_REAPING_TOOL_ITEM, idOf("iron_reaping_tool"));
-        registerReapingToolItem(GOLD_REAPING_TOOL_ITEM, idOf("gold_reaping_tool"));
-        registerReapingToolItem(DIAMOND_REAPING_TOOL_ITEM, idOf("diamond_reaping_tool"));
-        registerReapingToolItem(NETHERITE_REAPING_TOOL_ITEM, idOf("netherite_reaping_tool"));
+        registerReapingTool(IRON_REAPING_TOOL_ITEM, idOf("iron_reaping_tool"));
+        registerReapingTool(GOLD_REAPING_TOOL_ITEM, idOf("gold_reaping_tool"));
+        registerReapingTool(DIAMOND_REAPING_TOOL_ITEM, idOf("diamond_reaping_tool"));
+        registerReapingTool(NETHERITE_REAPING_TOOL_ITEM, idOf("netherite_reaping_tool"));
+
+        Registry.register(Registry.CUSTOM_STAT, USE_REAPER_TOOL.getPath(), USE_REAPER_TOOL);
+        Stats.CUSTOM.getOrCreateStat(USE_REAPER_TOOL, StatFormatter.DEFAULT);
 
         log(Level.INFO, "Initializing");
     }
 
-    private Identifier idOf(String name) {
+    private static Identifier idOf(String name) {
         return new Identifier(MOD_ID, name);
     }
 
@@ -42,7 +49,7 @@ public class ReapingModInit implements ModInitializer {
         LOGGER.log(level, "["+MOD_NAME+"] " + message);
     }
 
-    private static void registerReapingToolItem(Item item, Identifier id){
+    private static void registerReapingTool(Item item, Identifier id){
         Registry.register(Registry.ITEM, id, item);
         DispenserBlock.registerBehavior(item, new ReapingToolDispenserBehavior());
     }
