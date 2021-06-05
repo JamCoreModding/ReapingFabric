@@ -17,11 +17,14 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
+import java.util.Random;
+
 /**
  * @author Jamalam360
  */
 public class ReaperItem extends Item implements Vanishable {
     private final ToolMaterial TOOL_MATERIAL;
+    private static final Random RANDOM = new Random();
 
     public ReaperItem(Settings settings, ToolMaterial material) {
         super(settings.maxDamage(material.getDurability()));
