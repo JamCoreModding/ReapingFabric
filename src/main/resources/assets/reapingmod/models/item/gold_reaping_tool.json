@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "reapingmod:item/reaping_tool"
+    "layer0": "reapingmod:item/gold_reaping_tool"
   }
 }
