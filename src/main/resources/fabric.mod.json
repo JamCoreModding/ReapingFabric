@@ -5,10 +5,15 @@
   "name": "Reaping Mod",
   "description": "A Farming Mod",
   "authors": [
-    "Jamalam360"
+    "Jamalam360 - Owner, Developer",
+    "LordDeatHunter - Artist"
   ],
   "contributors": [],
-  "contact": {},
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/reaping-mod-fabric",
+    "issues": "https://github.com/Jamalam360/ReapingFabric/issues",
+    "sources": "https://github.com/Jamalam360/ReapingFabric"
+  },
   "license": "MIT",
   "icon": "assets/reapingmod/icon.png",
   "environment": "*",
