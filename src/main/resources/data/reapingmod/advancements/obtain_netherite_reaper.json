@@ -25,7 +25,7 @@
       "conditions": {
         "items": [
           {
-            "item": "reapingmod:netherite_reaping_tool"
+            "items": ["reapingmod:netherite_reaping_tool"]
           }
         ]
       }
