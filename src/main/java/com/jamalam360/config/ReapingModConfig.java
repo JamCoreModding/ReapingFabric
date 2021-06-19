@@ -6,4 +6,5 @@ import me.shedaniel.autoconfig.ConfigData;
  * @author Jamalam360
  */
 public class ReapingModConfig implements ConfigData {
+    public boolean enableDispenserBehavior = true;
 }
