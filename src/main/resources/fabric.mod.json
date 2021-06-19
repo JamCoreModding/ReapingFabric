@@ -22,7 +22,9 @@
     "main": [
       "com.jamalam360.ReapingModInit"
     ],
-    "server": []
+    "modmenu": [
+      "com.jamalam360.config.ModMenuIntegration"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.11.3",
