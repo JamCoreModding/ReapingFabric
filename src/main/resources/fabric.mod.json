@@ -26,6 +26,9 @@
       "com.jamalam360.config.ModMenuIntegration"
     ]
   },
+  "mixins": [
+    "reapingmod.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*"
