@@ -24,6 +24,9 @@
 
 package com.jamalam360;
 
+import com.jamalam360.config.ReapingModConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
@@ -61,6 +64,7 @@ public class ReapingModInit implements ModInitializer {
 
         Registry.register(Registry.CUSTOM_STAT, USE_REAPER_TOOL.getPath(), USE_REAPER_TOOL);
         Stats.CUSTOM.getOrCreateStat(USE_REAPER_TOOL, StatFormatter.DEFAULT);
+        AutoConfig.register(ReapingModConfig.class, GsonConfigSerializer::new);
 
         log(Level.INFO, "Initializing");
     }
