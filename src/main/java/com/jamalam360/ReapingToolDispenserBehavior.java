@@ -24,6 +24,8 @@
 
 package com.jamalam360;
 
+import com.jamalam360.config.ReapingModConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;
@@ -51,9 +53,12 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
     @Override
     public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         World world = pointer.getWorld();
-        if (!world.isClient()) {
+        ReapingModConfig config = AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig();
+
+        if (!world.isClient() && config.enableDispenserBehavior) {
             BlockPos blockPos = pointer.getBlockPos().offset((Direction) pointer.getBlockState().get(DispenserBlock.FACING));
-            this.setSuccess(tryShearBlock((ServerWorld) world, blockPos) || tryShearEntity((ServerWorld) world, blockPos, stack));
+            this.setSuccess(tryReapEntity((ServerWorld) world, blockPos, stack));
+
             if (this.isSuccess() && stack.damage(1, world.getRandom(), (ServerPlayerEntity) null)) {
                 stack.setCount(0);
             }
@@ -62,11 +67,7 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         return stack;
     }
 
-    private static boolean tryShearBlock(ServerWorld world, BlockPos pos) {
-        return false;
-    }
-
-    private static boolean tryShearEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
+    private static boolean tryReapEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
         List<LivingEntity> list = world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR);
         Iterator var3 = list.iterator();
 
