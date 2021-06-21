@@ -3,6 +3,7 @@
   "package": "com.jamalam360.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "LootContextBuilderAccessor",
     "PlayerEntityMixin"
   ],
   "injectors": {

@@ -17,7 +17,6 @@
   "license": "MIT",
   "icon": "assets/reapingmod/icon.png",
   "environment": "*",
-  "accessWidener" : "reapingmod.accesswidener",
   "entrypoints": {
     "main": [
       "com.jamalam360.ReapingModInit"

@@ -26,6 +26,7 @@ package com.jamalam360;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.jamalam360.mixin.LootContextBuilderAccessor;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
@@ -101,7 +102,7 @@ public class ReaperItem extends Item implements Vanishable {
     private static void dropEntityStacks(LivingEntity entity, ItemStack stack) {
         try {
             LootTable lootTable = entity.world.getServer().getLootManager().getTable(entity.getLootTable());
-            LootContext.Builder builder = entity.getLootContextBuilder(true, DamageSource.GENERIC);
+            LootContext.Builder builder = ((LootContextBuilderAccessor) entity).callGetLootContextBuilder(true, DamageSource.GENERIC);
 
             int lootingLvl = EnchantmentHelper.getLevel(Enchantments.LOOTING, stack);
             int rollTimes = lootingLvl == 0 ? 1 : RANDOM.nextInt(lootingLvl) + 1;
