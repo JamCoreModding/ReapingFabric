@@ -32,6 +32,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Group;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 
@@ -45,6 +46,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
+    @Group(name = "SweepRedirects")
     @Redirect( //Allows ReaperItem to have a sweep attack
             method = "attack(Lnet/minecraft/entity/Entity;)V",
             at = @At(
@@ -56,7 +58,23 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                     to = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getFireAspect(Lnet/minecraft/entity/LivingEntity;)I")
             )
     )
-    public boolean fixSweepCheck(Object item, Class<SwordItem> clazz) {
+    public boolean fixSweepCheckDev(Object item, Class<SwordItem> clazz) {
+        return item instanceof ReaperItem || item instanceof SwordItem;
+    }
+
+    @Group(name = "SweepRedirects")
+    @Redirect( //Allows ReaperItem to have a sweep attack
+            method = "attack(Lnet/minecraft/entity/Entity;)V",
+            at = @At(
+                    value = "CONSTANT",
+                    args = "classValue=net/minecraft/class_1829"
+            ),
+            slice = @Slice(
+                    from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"),
+                    to = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getFireAspect(Lnet/minecraft/entity/LivingEntity;)I")
+            )
+    )
+    public boolean fixSweepCheckProd(Object item, Class<SwordItem> clazz) {
         return item instanceof ReaperItem || item instanceof SwordItem;
     }
 }
