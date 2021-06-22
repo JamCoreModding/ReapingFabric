@@ -25,16 +25,15 @@
 package com.jamalam360.mixin;
 
 import com.jamalam360.ReaperItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Group;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * @author Jamalam360
@@ -76,5 +75,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     )
     public boolean fixSweepCheckProd(Object item, Class<SwordItem> clazz) {
         return item instanceof ReaperItem || item instanceof SwordItem;
+    }
+
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;squaredDistanceTo(Lnet/minecraft/entity/Entity;)D"), method = "attack(Lnet/minecraft/entity/Entity;)V", cancellable = true)
+    public void attackMixin(Entity target, CallbackInfo ci) {//Ok please ignore how cursed this is (even llama lad didn't have a better solution)
+        System.out.println("TEST");
     }
 }
