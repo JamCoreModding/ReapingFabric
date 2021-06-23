@@ -74,7 +74,7 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         while (var3.hasNext()) {
             LivingEntity livingEntity = (LivingEntity) var3.next();
             if (livingEntity instanceof AnimalEntity && !livingEntity.isBaby()) {
-                ReaperItem.doToolLogic(livingEntity, stack);
+                ReapingHelper.doReapingLogic(livingEntity, stack);
                 return true;
             }
         }
