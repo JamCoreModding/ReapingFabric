@@ -25,18 +25,20 @@ public class ReapingHelper {
     private static final Random RANDOM = new Random();
 
     public static ActionResult doReapingLogic(LivingEntity reapedEntity, ItemStack toolStack) {
-        if(!VALID_REAPING_TOOLS.contains(toolStack.getItem().getClass())){
+        if (!VALID_REAPING_TOOLS.contains(toolStack.getItem().getClass())) {
+            return ActionResult.PASS;
+        } else if (reapedEntity instanceof AnimalEntity && !reapedEntity.isBaby()) {
+            dropEntityStacks(reapedEntity, toolStack);
+
+            ((AnimalEntity) reapedEntity).setBaby(true);
+
+            reapedEntity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
+            reapedEntity.damage(DamageSource.GENERIC, 1.0f);
+
+            return ActionResult.SUCCESS;
+        } else {
             return ActionResult.PASS;
         }
-
-        dropEntityStacks(reapedEntity, toolStack);
-
-        ((AnimalEntity) reapedEntity).setBaby(true);
-
-        reapedEntity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
-        reapedEntity.damage(DamageSource.GENERIC, 1.0f);
-
-        return ActionResult.SUCCESS;
     }
 
     private static void dropEntityStacks(LivingEntity entity, ItemStack stack) {
@@ -50,10 +52,11 @@ public class ReapingHelper {
             for (int i = 0; i < rollTimes; i++) {
                 lootTable.generateLoot(builder.build(LootContextTypes.ENTITY), entity::dropStack);
             }
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) {
+        }
     }
 
-    public static void registerValidReapingTool(Class itemClass){
+    public static void registerValidReapingTool(Class itemClass) {
         VALID_REAPING_TOOLS.add(itemClass);
     }
 }
