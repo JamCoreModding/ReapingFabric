@@ -1,5 +1,31 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2021 Jamalam360
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.jamalam360;
 
+import com.jamalam360.config.ReapingModConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;
@@ -27,9 +53,12 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
     @Override
     public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         World world = pointer.getWorld();
-        if (!world.isClient()) {
+        ReapingModConfig config = AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig();
+
+        if (!world.isClient() && config.enableDispenserBehavior) {
             BlockPos blockPos = pointer.getBlockPos().offset((Direction) pointer.getBlockState().get(DispenserBlock.FACING));
-            this.setSuccess(tryShearBlock((ServerWorld) world, blockPos) || tryShearEntity((ServerWorld) world, blockPos, stack));
+            this.setSuccess(tryReapEntity((ServerWorld) world, blockPos, stack));
+
             if (this.isSuccess() && stack.damage(1, world.getRandom(), (ServerPlayerEntity) null)) {
                 stack.setCount(0);
             }
@@ -38,18 +67,14 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         return stack;
     }
 
-    private static boolean tryShearBlock(ServerWorld world, BlockPos pos) {
-        return false;
-    }
-
-    private static boolean tryShearEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
+    private static boolean tryReapEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
         List<LivingEntity> list = world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR);
         Iterator var3 = list.iterator();
 
         while (var3.hasNext()) {
             LivingEntity livingEntity = (LivingEntity) var3.next();
             if (livingEntity instanceof AnimalEntity && !livingEntity.isBaby()) {
-                ReaperItem.doToolLogic(livingEntity, stack);
+                ReapingHelper.doReapingLogic(livingEntity, stack);
                 return true;
             }
         }

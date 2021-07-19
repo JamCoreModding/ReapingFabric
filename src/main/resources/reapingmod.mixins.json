@@ -1,10 +1,12 @@
 {
   "required": true,
   "package": "com.jamalam360.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [],
-  "client": [],
-  "server": [],
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "ItemMixin",
+    "LootContextBuilderAccessor",
+    "PlayerEntityMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
