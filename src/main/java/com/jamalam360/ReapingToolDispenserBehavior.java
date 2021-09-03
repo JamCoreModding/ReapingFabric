@@ -37,7 +37,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Iterator;
@@ -56,7 +55,7 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         ReapingModConfig config = AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig();
 
         if (!world.isClient() && config.enableDispenserBehavior) {
-            BlockPos blockPos = pointer.getBlockPos().offset((Direction) pointer.getBlockState().get(DispenserBlock.FACING));
+            BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
             this.setSuccess(tryReapEntity((ServerWorld) world, blockPos, stack));
 
             if (this.isSuccess() && stack.damage(1, world.getRandom(), (ServerPlayerEntity) null)) {
@@ -74,7 +73,7 @@ public class ReapingToolDispenserBehavior extends FallibleItemDispenserBehavior 
         while (var3.hasNext()) {
             LivingEntity livingEntity = (LivingEntity) var3.next();
             if (livingEntity instanceof AnimalEntity && !livingEntity.isBaby()) {
-                ReapingHelper.doReapingLogic(livingEntity, stack);
+                ReapingHelper.tryReap(livingEntity, stack);
                 return true;
             }
         }

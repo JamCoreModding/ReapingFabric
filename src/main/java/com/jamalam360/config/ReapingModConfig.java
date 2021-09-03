@@ -35,4 +35,5 @@ import me.shedaniel.autoconfig.annotation.Config;
 @Config(name = ReapingModInit.MOD_ID)
 public class ReapingModConfig implements ConfigData {
     public boolean enableDispenserBehavior = true;
+    public boolean damageAnimals = true;
 }

@@ -7,5 +7,6 @@
   "reapingmod.advancements.netherite_reaping_tool.description": "Seriously, sit down and ask yourself: 'Why did I do that?'",
   "stat.reapingmod.use_reaper_tool": "Uses of Reaper Tool",
   "text.autoconfig.reapingmod.title": "Reaping Mod Configuration",
-  "text.autoconfig.reapingmod.option.enableDispenserBehavior": "Enable Dispenser Behavior"
+  "text.autoconfig.reapingmod.option.enableDispenserBehavior": "Enable Dispenser Behavior",
+  "text.autoconfig.reapingmod.option.damageAnimals": "Damage Reaped Animals"
 }

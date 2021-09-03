@@ -25,7 +25,6 @@
 package com.jamalam360;
 
 import com.jamalam360.config.ReapingModConfig;
-import com.jamalam360.registry.CompatRegistry;
 import com.jamalam360.registry.ItemRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -49,7 +48,6 @@ public class ReapingModInit implements ModInitializer {
     @Override
     public void onInitialize() {
         ItemRegistry.registerItems();
-        CompatRegistry.register();
 
         Registry.register(Registry.CUSTOM_STAT, USE_REAPER_TOOL.getPath(), USE_REAPER_TOOL);
         Stats.CUSTOM.getOrCreateStat(USE_REAPER_TOOL, StatFormatter.DEFAULT);

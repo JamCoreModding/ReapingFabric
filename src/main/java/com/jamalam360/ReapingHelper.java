@@ -24,12 +24,15 @@
 
 package com.jamalam360;
 
+import com.jamalam360.config.ReapingModConfig;
 import com.jamalam360.mixin.LootContextBuilderAccessor;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
@@ -48,7 +51,7 @@ public class ReapingHelper {
     public static final ArrayList<Class> VALID_REAPING_TOOLS = new ArrayList<>();
     private static final Random RANDOM = new Random();
 
-    public static ActionResult doReapingLogic(LivingEntity reapedEntity, ItemStack toolStack) {
+    public static ActionResult tryReap(LivingEntity reapedEntity, ItemStack toolStack) {
         if (!VALID_REAPING_TOOLS.contains(toolStack.getItem().getClass())) {
             return ActionResult.PASS;
         } else if (reapedEntity instanceof AnimalEntity && !reapedEntity.isBaby()) {
@@ -57,7 +60,14 @@ public class ReapingHelper {
             ((AnimalEntity) reapedEntity).setBaby(true);
 
             reapedEntity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
-            reapedEntity.damage(DamageSource.GENERIC, 1.0f);
+
+            if (AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig().damageAnimals) {
+                reapedEntity.damage(DamageSource.GENERIC, 1.0f);
+            }
+
+            if (toolStack.getHolder() instanceof PlayerEntity) {
+                toolStack.damage(1, (PlayerEntity) toolStack.getHolder(), (entity) -> entity.sendToolBreakStatus(((PlayerEntity) toolStack.getHolder()).getActiveHand()));
+            }
 
             return ActionResult.SUCCESS;
         } else {

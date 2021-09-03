@@ -65,7 +65,7 @@ public class ReaperItem extends Item implements Vanishable {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        return ReapingHelper.doReapingLogic(entity, stack);
+        return ReapingHelper.tryReap(entity, stack);
     }
 
     @Override
