@@ -1,6 +1,5 @@
 plugins {
     id 'fabric-loom' version '0.9.+'
-    id 'maven-publish'
     id 'org.cadixdev.licenser' version '0.6.0'
 }
 
@@ -66,28 +65,4 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
     from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(jar) {
-                builtBy remapJar
-            }
-            artifact("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
-    repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
-    }
 }
