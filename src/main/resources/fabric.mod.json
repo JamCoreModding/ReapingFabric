@@ -19,10 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.jamalam360.ReapingModInit"
+      "io.github.jamalam360.reaping.ReapingModInit"
     ],
     "modmenu": [
-      "com.jamalam360.config.ModMenuIntegration"
+      "io.github.jamalam360.reaping.config.ModMenuIntegration"
     ]
   },
   "mixins": [

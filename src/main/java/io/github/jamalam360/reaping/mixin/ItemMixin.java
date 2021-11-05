@@ -22,22 +22,32 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.config;
+package io.github.jamalam360.reaping.mixin;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.autoconfig.AutoConfig;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import io.github.jamalam360.reaping.ReapingHelper;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * @author Jamalam360
  */
 
-@Environment(EnvType.CLIENT)
-public class ModMenuIntegration implements ModMenuApi {
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> AutoConfig.getConfigScreen(ReapingModConfig.class, parent).get();
+@Mixin(Item.class)
+public class ItemMixin {
+    @Inject(at = @At("HEAD"), method = "useOnEntity(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;", cancellable = true)
+    public void useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir){
+        if(ReapingHelper.tryReap(entity, stack) == ActionResult.SUCCESS){
+            cir.setReturnValue(ActionResult.SUCCESS);
+            cir.cancel();
+        }
     }
+
 }

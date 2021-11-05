@@ -22,32 +22,18 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.mixin;
+package io.github.jamalam360.reaping.config;
 
-import com.jamalam360.ReapingHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import io.github.jamalam360.reaping.ReapingModInit;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
 
 /**
  * @author Jamalam360
  */
 
-@Mixin(Item.class)
-public class ItemMixin {
-    @Inject(at = @At("HEAD"), method = "useOnEntity(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;", cancellable = true)
-    public void useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir){
-        if(ReapingHelper.tryReap(entity, stack) == ActionResult.SUCCESS){
-            cir.setReturnValue(ActionResult.SUCCESS);
-            cir.cancel();
-        }
-    }
-
+@Config(name = ReapingModInit.MOD_ID)
+public class ReapingModConfig implements ConfigData {
+    public boolean enableDispenserBehavior = true;
+    public boolean damageAnimals = true;
 }

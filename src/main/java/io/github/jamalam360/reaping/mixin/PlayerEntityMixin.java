@@ -22,9 +22,9 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.mixin;
+package io.github.jamalam360.reaping.mixin;
 
-import com.jamalam360.ReaperItem;
+import io.github.jamalam360.reaping.ReaperItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -22,11 +22,11 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.registry;
+package io.github.jamalam360.reaping.registry;
 
-import com.jamalam360.ReaperItem;
-import com.jamalam360.ReapingHelper;
-import com.jamalam360.ReapingToolDispenserBehavior;
+import io.github.jamalam360.reaping.ReaperItem;
+import io.github.jamalam360.reaping.ReapingHelper;
+import io.github.jamalam360.reaping.ReapingToolDispenserBehavior;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Item;
@@ -34,7 +34,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.util.Identifier;
 
-import static com.jamalam360.ReapingModInit.idOf;
+import static io.github.jamalam360.reaping.ReapingModInit.idOf;
 import static net.minecraft.util.registry.Registry.ITEM;
 import static net.minecraft.util.registry.Registry.register;
 

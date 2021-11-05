@@ -22,18 +22,18 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.config;
+package io.github.jamalam360.reaping.mixin;
 
-import com.jamalam360.ReapingModInit;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
 /**
  * @author Jamalam360
  */
 
-@Config(name = ReapingModInit.MOD_ID)
-public class ReapingModConfig implements ConfigData {
-    public boolean enableDispenserBehavior = true;
-    public boolean damageAnimals = true;
+@Mixin(LivingEntity.class)
+public interface LootContextBuilderAccessor {
+    @Invoker net.minecraft.loot.context.LootContext.Builder callGetLootContextBuilder(boolean causedByPlayer, DamageSource source);
 }

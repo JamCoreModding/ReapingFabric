@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360;
+package io.github.jamalam360.reaping;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

@@ -22,18 +22,22 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360.mixin;
+package io.github.jamalam360.reaping.config;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 /**
  * @author Jamalam360
  */
 
-@Mixin(LivingEntity.class)
-public interface LootContextBuilderAccessor {
-    @Invoker net.minecraft.loot.context.LootContext.Builder callGetLootContextBuilder(boolean causedByPlayer, DamageSource source);
+@Environment(EnvType.CLIENT)
+public class ModMenuIntegration implements ModMenuApi {
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> AutoConfig.getConfigScreen(ReapingModConfig.class, parent).get();
+    }
 }

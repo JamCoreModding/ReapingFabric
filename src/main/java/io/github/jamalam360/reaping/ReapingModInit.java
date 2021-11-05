@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360;
+package io.github.jamalam360.reaping;
 
-import com.jamalam360.config.ReapingModConfig;
-import com.jamalam360.registry.ItemRegistry;
+import io.github.jamalam360.reaping.config.ReapingModConfig;
+import io.github.jamalam360.reaping.registry.ItemRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;

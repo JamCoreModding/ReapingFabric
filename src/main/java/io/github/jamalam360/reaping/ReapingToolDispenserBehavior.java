@@ -22,9 +22,9 @@
  * THE SOFTWARE.
  */
 
-package com.jamalam360;
+package io.github.jamalam360.reaping;
 
-import com.jamalam360.config.ReapingModConfig;
+import io.github.jamalam360.reaping.config.ReapingModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
