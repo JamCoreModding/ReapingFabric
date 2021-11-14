@@ -36,4 +36,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 public class ReapingModConfig implements ConfigData {
     public boolean enableDispenserBehavior = true;
     public boolean damageAnimals = true;
+    public boolean dropXp = true;
+    public boolean reapBabies = true;
 }

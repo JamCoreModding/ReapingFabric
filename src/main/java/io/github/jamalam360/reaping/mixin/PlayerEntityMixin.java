@@ -25,10 +25,15 @@
 package io.github.jamalam360.reaping.mixin;
 
 import io.github.jamalam360.reaping.ReaperItem;
+import io.github.jamalam360.reaping.ReapingHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,34 +52,47 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     @Group(name = "SweepRedirects")
-    @Redirect( //Allows ReaperItem to have a sweep attack
-            method = "attack(Lnet/minecraft/entity/Entity;)V",
+    @Redirect(
+            method = "attack",
             at = @At(
                     value = "CONSTANT",
                     args = "classValue=net/minecraft/item/SwordItem"
-            ),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"),
-                    to = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getFireAspect(Lnet/minecraft/entity/LivingEntity;)I")
             )
     )
-    public boolean fixSweepCheckDev(Object item, Class<SwordItem> clazz) {
+    public boolean reapingmod$fixSweepCheckDev(Object item, Class<Item> clazz) {
         return item instanceof ReaperItem || item instanceof SwordItem;
     }
 
     @Group(name = "SweepRedirects")
-    @Redirect( //Allows ReaperItem to have a sweep attack
-            method = "attack(Lnet/minecraft/entity/Entity;)V",
+    @Redirect(
+            method = "attack",
             at = @At(
                     value = "CONSTANT",
                     args = "classValue=net/minecraft/class_1829"
-            ),
-            slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"),
-                    to = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getFireAspect(Lnet/minecraft/entity/LivingEntity;)I")
             )
     )
-    public boolean fixSweepCheckProd(Object item, Class<SwordItem> clazz) {
+    public boolean reapingmod$fixSweepCheckProd(Object item, Class<Item> clazz) {
         return item instanceof ReaperItem || item instanceof SwordItem;
+    }
+
+    @Redirect(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+            ),
+            slice = @Slice(
+                from = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/player/PlayerEntity;squaredDistanceTo(Lnet/minecraft/entity/Entity;)D"
+                )
+            )
+    )
+    public boolean reapingmod$reapEntitiesOnSweep(LivingEntity instance, DamageSource source, float amount) {
+        if (ReapingHelper.tryReap(instance, this.getStackInHand(Hand.MAIN_HAND)) == ActionResult.SUCCESS) {
+            return true;
+        } else {
+            return instance.damage(source, amount);
+        }
     }
 }

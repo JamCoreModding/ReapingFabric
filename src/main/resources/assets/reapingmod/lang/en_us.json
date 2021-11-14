@@ -8,5 +8,7 @@
   "stat.reapingmod.use_reaper_tool": "Uses of Reaper Tool",
   "text.autoconfig.reapingmod.title": "Reaping Mod Configuration",
   "text.autoconfig.reapingmod.option.enableDispenserBehavior": "Enable Dispenser Behavior",
-  "text.autoconfig.reapingmod.option.damageAnimals": "Damage Reaped Animals"
+  "text.autoconfig.reapingmod.option.damageAnimals": "Damage Reaped Animals",
+  "text.autoconfig.reapingmod.option.dropXp": "Drop XP",
+  "text.autoconfig.reapingmod.option.reapBabies": "Reap Babies"
 }

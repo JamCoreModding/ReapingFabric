@@ -32,10 +32,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.Vanishable;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
@@ -44,16 +41,27 @@ import net.minecraft.util.Hand;
  */
 public class ReaperItem extends Item implements Vanishable {
     private final ToolMaterial TOOL_MATERIAL;
-    private final float attackDamage;
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
     public ReaperItem(Settings settings, ToolMaterial material) {
         super(settings.maxDamage(material.getDurability()));
         this.TOOL_MATERIAL = material;
 
-        this.attackDamage = (float) (material.getAttackDamage() * 1.5);
+        float attackDamage;
+        if (material == ToolMaterials.IRON) {
+            attackDamage = 4.0f;
+        } else if (material == ToolMaterials.GOLD) {
+            attackDamage = 5.0f;
+        } else if (material == ToolMaterials.DIAMOND) {
+            attackDamage = 6.0f;
+        } else if (material == ToolMaterials.NETHERITE) {
+            attackDamage = 7.0f;
+        } else {
+            attackDamage = 1.0f; // Will never happen
+        }
+
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
+        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage, EntityAttributeModifier.Operation.ADDITION));
         builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", -2.8f, EntityAttributeModifier.Operation.ADDITION));
         this.attributeModifiers = builder.build();
     }

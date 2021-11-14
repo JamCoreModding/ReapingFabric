@@ -29,6 +29,7 @@ import io.github.jamalam360.reaping.mixin.LootContextBuilderAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -53,6 +54,9 @@ public class ReapingHelper {
     private static final Random RANDOM = new Random();
 
     public static ActionResult tryReap(LivingEntity reapedEntity, ItemStack toolStack) {
+        ReapingModConfig conf = AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig();
+        int lootingLvl = EnchantmentHelper.getLevel(Enchantments.LOOTING, toolStack);
+
         if (!VALID_REAPING_TOOLS.contains(toolStack.getItem().getClass())) {
             return ActionResult.PASS;
         } else if (reapedEntity instanceof AnimalEntity && !reapedEntity.isBaby()) {
@@ -62,8 +66,12 @@ public class ReapingHelper {
 
             reapedEntity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
 
-            if (AutoConfig.getConfigHolder(ReapingModConfig.class).getConfig().damageAnimals) {
+            if (conf.damageAnimals) {
                 reapedEntity.damage(DamageSource.player((PlayerEntity) toolStack.getHolder()), 1.0f);
+            }
+
+            if (conf.dropXp) {
+                reapedEntity.world.spawnEntity(EntityType.EXPERIENCE_ORB.create(reapedEntity.world));
             }
 
             if (toolStack.getHolder() instanceof PlayerEntity) {
@@ -71,11 +79,16 @@ public class ReapingHelper {
             }
 
             return ActionResult.SUCCESS;
-        } else if (reapedEntity instanceof AnimalEntity && reapedEntity.isBaby()) {
+        } else if (reapedEntity instanceof AnimalEntity && reapedEntity.isBaby() && conf.reapBabies) {
             reapedEntity.damage(DamageSource.player((PlayerEntity) toolStack.getHolder()), reapedEntity.getHealth());
 
             reapedEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
-            reapedEntity.dropStack(new ItemStack(Items.BONE));
+            reapedEntity.dropStack(new ItemStack(Items.BONE, reapedEntity.world.random.nextInt(lootingLvl) + 1));
+
+            if (conf.dropXp) {
+                reapedEntity.world.spawnEntity(EntityType.EXPERIENCE_ORB.create(reapedEntity.world));
+                reapedEntity.world.spawnEntity(EntityType.EXPERIENCE_ORB.create(reapedEntity.world));
+            }
 
             return ActionResult.SUCCESS;
         } else {
