@@ -67,7 +67,11 @@ public class ReapingHelper {
             reapedEntity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
 
             if (conf.damageAnimals) {
-                reapedEntity.damage(DamageSource.player((PlayerEntity) toolStack.getHolder()), 1.0f);
+                if (toolStack.getHolder() != null) {
+                    reapedEntity.damage(DamageSource.player((PlayerEntity) toolStack.getHolder()), 1.0f);
+                } else {
+                    reapedEntity.damage(DamageSource.GENERIC, 1.0f);
+                }
             }
 
             if (conf.dropXp) {
@@ -80,10 +84,10 @@ public class ReapingHelper {
 
             return ActionResult.SUCCESS;
         } else if (reapedEntity instanceof AnimalEntity && reapedEntity.isBaby() && conf.reapBabies) {
-            reapedEntity.damage(DamageSource.player((PlayerEntity) toolStack.getHolder()), reapedEntity.getHealth());
+            reapedEntity.kill();
 
             reapedEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
-            reapedEntity.dropStack(new ItemStack(Items.BONE, reapedEntity.world.random.nextInt(lootingLvl) + 1));
+            reapedEntity.dropStack(new ItemStack(Items.BONE, lootingLvl == 0 ? 1 : reapedEntity.world.random.nextInt(lootingLvl) + 1));
 
             if (conf.dropXp) {
                 reapedEntity.world.spawnEntity(EntityType.EXPERIENCE_ORB.create(reapedEntity.world));
