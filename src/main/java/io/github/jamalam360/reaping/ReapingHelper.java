@@ -29,11 +29,13 @@ import io.github.jamalam360.reaping.mixin.LootContextBuilderAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
@@ -48,9 +50,8 @@ import java.util.Random;
 /**
  * @author Jamalam360
  */
-@SuppressWarnings("rawtypes")
 public class ReapingHelper {
-    public static final ArrayList<Class> VALID_REAPING_TOOLS = new ArrayList<>();
+    public static final ArrayList<Class<?>> VALID_REAPING_TOOLS = new ArrayList<>();
     private static final Random RANDOM = new Random();
 
     public static ActionResult tryReap(LivingEntity reapedEntity, ItemStack toolStack) {
@@ -78,9 +79,6 @@ public class ReapingHelper {
                 reapedEntity.world.spawnEntity(EntityType.EXPERIENCE_ORB.create(reapedEntity.world));
             }
 
-            if (toolStack.getHolder() instanceof PlayerEntity) {
-                toolStack.damage(1, (PlayerEntity) toolStack.getHolder(), (entity) -> entity.sendToolBreakStatus(((PlayerEntity) toolStack.getHolder()).getActiveHand()));
-            }
 
             return ActionResult.SUCCESS;
         } else if (reapedEntity instanceof AnimalEntity && reapedEntity.isBaby() && conf.reapBabies) {
@@ -115,7 +113,7 @@ public class ReapingHelper {
         }
     }
 
-    public static void registerValidReapingTool(Class itemClass) {
+    public static void registerValidReapingTool(Class<? extends Item> itemClass) {
         VALID_REAPING_TOOLS.add(itemClass);
     }
 }
