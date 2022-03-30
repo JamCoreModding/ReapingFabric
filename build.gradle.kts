@@ -37,6 +37,10 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
 
+    configurations.all {
+        resolutionStrategy.force("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
+    }
+
     // Required:
     modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion")
 
