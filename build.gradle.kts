@@ -14,7 +14,8 @@ repositories {
     val mavenUrls = listOf(
         "https://maven.terraformersmc.com/releases",
         "https://maven.shedaniel.me/",
-        "https://www.cursemaven.com"
+        "https://www.cursemaven.com",
+        "https://jitpack.io"
     )
 
     for (url in mavenUrls) {
@@ -48,7 +49,10 @@ dependencies {
     modApi("com.terraformersmc:modmenu:$modMenuVersion")
 
     // Compatibility:
-    // modApi("curse.maven:harvestscythes-412225:3350526")
+    modLocalRuntime("curse.maven:harvestscythes-412225:3684872")
+
+    // Compatibility Dependencies:
+    modLocalRuntime("com.github.Chocohead:Fabric-ASM:v2.3") // Harvest Scythes
 }
 
 tasks {

@@ -29,6 +29,8 @@ import io.github.jamalam360.reaping.registry.ItemRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.item.Item;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
@@ -47,20 +49,35 @@ public class ReapingModInit implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        log(Level.INFO, "Initializing Reaping Mod");
+
         ItemRegistry.registerItems();
 
         Registry.register(Registry.CUSTOM_STAT, USE_REAPER_TOOL.getPath(), USE_REAPER_TOOL);
         Stats.CUSTOM.getOrCreateStat(USE_REAPER_TOOL, StatFormatter.DEFAULT);
         AutoConfig.register(ReapingModConfig.class, GsonConfigSerializer::new);
 
-        log(Level.INFO, "Initializing");
+        if (FabricLoader.getInstance().isModLoaded("harvest_scythes")) {
+            log(Level.INFO, "Enabling Harvest Scythe compatibility...");
+
+            try {
+                @SuppressWarnings("unchecked")
+                Class<? extends Item> clazz = (Class<? extends Item>) ReapingModInit.class.getClassLoader()
+                        .loadClass("wraith.harvest_scythes.item.ScytheItem");
+                ReapingHelper.registerValidReapingTool(clazz);
+            } catch (Exception e) {
+                log(Level.WARN, "Failed to enable Harvest Scythe compatibility");
+            }
+        }
+
+        log(Level.INFO, "Initialized Reaping Mod");
     }
 
     public static Identifier idOf(String name) {
         return new Identifier(ReapingModInit.MOD_ID, name);
     }
 
-    public static void log(Level level, String message){
-        LOGGER.log(level, "["+MOD_NAME+"] " + message);
+    public static void log(Level level, String message) {
+        LOGGER.log(level, "[" + MOD_NAME + "] " + message);
     }
 }
