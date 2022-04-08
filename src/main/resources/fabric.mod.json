@@ -34,7 +34,6 @@
     "cloth-config2": "*"
   },
   "suggests": {
-    "sandwichable": "*",
     "harvest_scythes": "*"
   },
   "custom": {
