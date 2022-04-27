@@ -3,9 +3,9 @@
   "id": "reapingmod",
   "version": "${version}",
   "name": "Reaping Mod",
-  "description": "A Farming Mod",
+  "description": "A (not cursed) farming mod...",
   "authors": [
-    "Jamalam360 - Owner, Developer",
+    "Jamalam360 - Developer",
     "LordDeatHunter - Artist"
   ],
   "contributors": [],
@@ -38,6 +38,6 @@
   },
   "custom": {
     "notify_gradle_properties_url": "https://raw.githubusercontent.com/JamCoreModding/ReapingFabric/main/gradle.properties",
-    "notify_gradle_properties_key": "modVersion"
+    "notify_gradle_properties_key": "mod_version"
   }
 }

@@ -36,10 +36,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Group;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.*;
 
 /**
  * @author Jamalam360
@@ -51,27 +48,42 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Group(name = "SweepRedirects")
-    @Redirect(
+//    @Group(name = "SweepRedirects")
+//    @Redirect(
+//            method = "attack",
+//            at = @At(
+//                    value = "CONSTANT",
+//                    args = "classValue=net/minecraft/item/SwordItem"
+//            )
+//    )
+//    public boolean reapingmod$fixSweepCheckDev(Object item, Class<Item> clazz) {
+//        return item instanceof ReaperItem || item instanceof SwordItem;
+//    }
+//
+//    @Group(name = "SweepRedirects")
+//    @Redirect(
+//            method = "attack",
+//            at = @At(
+//                    value = "CONSTANT",
+//                    args = "classValue=net/minecraft/class_1829"
+//            )
+//    )
+//    public boolean reapingmod$fixSweepCheckProd(Object item, Class<Item> clazz) {
+//        return item instanceof ReaperItem || item instanceof SwordItem;
+//    }
+
+//    @ModifyConstant(
+//            method = "attack",
+//            constant = @At(
+//                    value = "CONSTANT",
+//                    args = "classValue=net/minecraft/item/SwordItem"
+//            )
+//    )
+    @ModifyConstant(
             method = "attack",
-            at = @At(
-                    value = "CONSTANT",
-                    args = "classValue=net/minecraft/item/SwordItem"
-            )
+            constant = @Constant(classValue = SwordItem.class)
     )
     public boolean reapingmod$fixSweepCheckDev(Object item, Class<Item> clazz) {
-        return item instanceof ReaperItem || item instanceof SwordItem;
-    }
-
-    @Group(name = "SweepRedirects")
-    @Redirect(
-            method = "attack",
-            at = @At(
-                    value = "CONSTANT",
-                    args = "classValue=net/minecraft/class_1829"
-            )
-    )
-    public boolean reapingmod$fixSweepCheckProd(Object item, Class<Item> clazz) {
         return item instanceof ReaperItem || item instanceof SwordItem;
     }
 

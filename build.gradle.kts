@@ -5,10 +5,13 @@ plugins {
     id("org.cadixdev.licenser") version "0.6.1"
 }
 
-val modVersion: String by project
+apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/main/publishing.gradle.kts")
+apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/main/misc.gradle.kts")
+
+val mod_version: String by project
 
 group = "io.github.jamalam360"
-version = modVersion
+version = mod_version
 
 repositories {
     val mavenUrls = listOf(
@@ -24,62 +27,27 @@ repositories {
 }
 
 dependencies {
-    val minecraftVersion: String by project
-    val mappingsVersion: String by project
-    val loaderVersion: String by project
-    val fabricApiVersion: String by project
-    val clothConfigVersion: String by project
-    val modMenuVersion: String by project
-
-    minecraft("com.mojang:minecraft:$minecraftVersion")
+    minecraft(libs.minecraft)
     mappings(loom.layered {
-        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:$minecraftVersion+build.$mappingsVersion:v2"))
+        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.2+build.22:v2"))
     })
-    modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
+
+    modImplementation(libs.loader)
+    modImplementation(libs.fabric.api)
 
     configurations.all {
-        resolutionStrategy.force("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
+        resolutionStrategy.force("net.fabricmc.fabric-api:fabric-api:0.51.0+1.18.2")
     }
 
     // Required:
-    modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion")
+    modApi(libs.cloth.config)
 
     // Optional:
-    modApi("com.terraformersmc:modmenu:$modMenuVersion")
+    modApi(libs.mod.menu)
 
     // Compatibility:
-    modLocalRuntime("curse.maven:harvestscythes-412225:3684872")
+    modLocalRuntime(libs.harvest.scythes)
 
     // Compatibility Dependencies:
-    modLocalRuntime("com.github.Chocohead:Fabric-ASM:v2.3") // Harvest Scythes
-}
-
-tasks {
-    processResources {
-        inputs.property("version", project.version)
-        filesMatching("fabric.mod.json") {
-            expand(
-                mutableMapOf(
-                    "version" to project.version
-                )
-            )
-        }
-    }
-
-    build {
-        dependsOn("updateLicenses")
-    }
-
-    jar {
-        archiveBaseName.set("ReapingMod")
-    }
-
-    remapJar {
-        archiveBaseName.set("ReapingMod")
-    }
-
-    withType<JavaCompile> {
-        options.release.set(17)
-    }
+    modLocalRuntime(libs.fabric.asm) // Harvest Scythes dependency
 }
