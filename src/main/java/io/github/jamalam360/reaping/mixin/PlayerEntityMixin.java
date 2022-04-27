@@ -48,37 +48,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
-//    @Group(name = "SweepRedirects")
-//    @Redirect(
-//            method = "attack",
-//            at = @At(
-//                    value = "CONSTANT",
-//                    args = "classValue=net/minecraft/item/SwordItem"
-//            )
-//    )
-//    public boolean reapingmod$fixSweepCheckDev(Object item, Class<Item> clazz) {
-//        return item instanceof ReaperItem || item instanceof SwordItem;
-//    }
-//
-//    @Group(name = "SweepRedirects")
-//    @Redirect(
-//            method = "attack",
-//            at = @At(
-//                    value = "CONSTANT",
-//                    args = "classValue=net/minecraft/class_1829"
-//            )
-//    )
-//    public boolean reapingmod$fixSweepCheckProd(Object item, Class<Item> clazz) {
-//        return item instanceof ReaperItem || item instanceof SwordItem;
-//    }
-
-//    @ModifyConstant(
-//            method = "attack",
-//            constant = @At(
-//                    value = "CONSTANT",
-//                    args = "classValue=net/minecraft/item/SwordItem"
-//            )
-//    )
     @ModifyConstant(
             method = "attack",
             constant = @Constant(classValue = SwordItem.class)
